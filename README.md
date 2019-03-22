@@ -1,2 +1,2 @@
 # Game
-freebasic
+freebasic 32bit https://www.freebasic.net/

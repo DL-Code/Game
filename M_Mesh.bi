@@ -1,4 +1,3 @@
-
 Type _M_Mesh
 	As UInteger _m_id
 	As UInteger _t_tex
@@ -9,6 +8,7 @@ Type _M_Mesh
 	Declare Sub _LoadMesh(st As String)
 	Declare Sub _Draw()
 	Declare Sub _Rotation(x As Single, y As Single, z As Single)
+	Declare Sub _Position(x As Single, y As Single, z As Single)
 End Type
 
 Sub _M_Mesh._LoadMesh(st As String)
@@ -97,7 +97,7 @@ Sub _M_Mesh._Draw()
     this.material._setTexture()
     this.material._MaterialUse()
     glPushMatrix
-    glTranslatef(0,-1,-5)
+    glTranslatef(this.position.x,this.position.y,this.position.z)
     glRotatef(this.rotation.x,1,0,0)
     glRotatef(this.rotation.y,0,1,0)
     glRotatef(this.rotation.z,0,0,1)
@@ -111,6 +111,12 @@ Sub _M_Mesh._Rotation(x As Single, y As Single, z As Single)
 	this.rotation.y=y
 	this.rotation.z=z
 	
+End Sub
+
+Sub _M_Mesh._Position(x As Single, y As Single, z As Single)
+	this.position.x=x
+	this.position.y=y
+	this.position.z=z
 End Sub
 
 

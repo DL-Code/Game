@@ -13,8 +13,6 @@ End Type
 
 Sub _M_Mesh._LoadMesh(st As String)
 	Dim As Integer file, vercout=1, norcout=1, texcout=1, facecout=3
-	'Dim As mesh tmodel
-
 	Dim vertex() As Single
 	Dim normal() As Single
 	Dim texturcoor() As Single
@@ -24,14 +22,11 @@ Sub _M_Mesh._LoadMesh(st As String)
 	dim oneline as string * 256
 	Dim As String model = ExePath+"\" + st+".obj"
 	Dim  mtlf As String * 256
-
 	_log("Loading "+model+" file...")
-
 	vercout=1
 	norcout=1
 	texcout=1
 	facecout=3
-
 	file = FreeFile
 	if (Open(model, For input, as #file)<>0) then   
 		_log("Loading OBJ File error!")
@@ -47,7 +42,6 @@ Sub _M_Mesh._LoadMesh(st As String)
 		mtlf = ExePath+"\" + mtlf
 		_log("MTL "+mtlf+" file...")
 	EndIf
-
 	Select Case tstr
 		Case "v "
 			ReDim Preserve vertex(vercout,3)
@@ -79,26 +73,19 @@ Sub _M_Mesh._LoadMesh(st As String)
 		
 	_log("Loading "+mtlf+" file...")
 	This.material._LoadMtl(mtlf)
-	
-	
-	
 	Dim As UInteger fv = 0
 	Dim As UInteger fn = 0
 	Dim As UInteger ft = 0
 	this._m_id=glGenLists(1)
 	glNewList(this._m_id,GL_COMPILE)
-	
-	
 	glBegin(GL_TRIANGLES)
 	For  i As uInteger = 0 To facecout -3
-	
 	 fv = face(i,0)
 	 fn = face(i,2)
 	 ft = face(i,1)
 	glNormal3f(normal(fn,0),normal(fn,1),normal(fn,2))
    glTexCoord2f( texturcoor(ft,0), texturcoor(ft,1))
 	glVertex3f(vertex(fv,0), vertex(fv,1), vertex(fv,2))            ' Top right of the quad (right)
-
 	Next
 	glEnd()
 	glEndList()

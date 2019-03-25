@@ -5,7 +5,19 @@ Sub _log(ByRef text As String = "")
 	Close #fn
 End Sub
 
-	Const pi_180 = 0.0174532925f
+Function Regulate(Byval MyFps As long,Byref fps As long) As long
+    Static As Double timervalue,lastsleeptime,t3,frames
+    Dim As Double t=Timer
+    frames+=1
+    If (t-t3)>=1 Then t3=t:fps=frames:frames=0
+    Dim As long sleeptime=lastsleeptime+((1/myfps)-T+timervalue)*1000
+    If sleeptime<1 Then sleeptime=1
+    lastsleeptime=sleeptime
+    timervalue=T
+    Return sleeptime
+End Function
+
+Const pi_180 = 0.0174532925f
 	
 Type v3f
 	 As Single x,y,z
@@ -26,3 +38,4 @@ End Type
 #Include "M_Material.bi"
 #Include "M_Mesh.bi
 #Include "M_Light.bi"
+#Include "main.bas"

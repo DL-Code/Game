@@ -1,7 +1,5 @@
 Type M_Material
-
 	As _M_Texture tex
-	
 	As Single AMBIENT(3)
 	As Single DIFFUSE(3)
 	As Single SPECULAR(3)
@@ -33,7 +31,6 @@ Sub M_Material._LoadMtl(mtlname As string)
 			texturefile = ExePath+"\" + texturefile
 		_log("Texture "+texturefile+" file...")
 	EndIf
-	
 	Select Case tstr
 		Case "Ns"
 			Dim As String sstr =  Mid(oneline,3)
@@ -61,26 +58,17 @@ Sub M_Material._LoadMtl(mtlname As string)
 		_log("Loading texture "+texturefile)
 		tex._LoadTextures(texturefile, 1)
 	EndIf
-
-
 	_log("Loading "+mtlname+" comlite...")
 	End If
-
-	
 End Sub
 
 
 Sub M_Material._MaterialUse()
-
-	
 	glMaterialfv(GL_FRONT, GL_AMBIENT, @this.AMBIENT(0)) 
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, @this.DIFFUSE(0)) 
 	glMaterialfv(GL_FRONT, GL_SPECULAR, @this.SPECULAR(0))
 	glMaterialfv(GL_FRONT, GL_EMISSION, @this.EMISSION(0))  
 	glMaterialfv(GL_FRONT, GL_SHININESS, @this.SHININESS(0))
-	
-	
-	
 End Sub
 
 

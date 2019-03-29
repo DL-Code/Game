@@ -5,7 +5,6 @@ Type M_Material
 	As Single SPECULAR(3)
 	As Single EMISSION(3)
 	As Single SHININESS(0)
-	
 	Declare Sub _LoadMtl(mtlname As string)
 	Declare Sub _MaterialUse()
 	Declare Sub _setTexture()
@@ -19,7 +18,7 @@ Sub M_Material._LoadMtl(mtlname As string)
 	Dim tstex As String *6
 	file = FreeFile
 	If (Open(mtlname, For input, as #file)<>0) then    
-	_log("Loading MTL File error!")
+	_log("[Loading MTL File error!]")
 	Else
 	While Eof(file)=0
 	Line input #file, oneline
@@ -29,7 +28,7 @@ Sub M_Material._LoadMtl(mtlname As string)
 			Dim As String sstr =  Mid(oneline,7)
 			sscanf(strptr(sstr), "%s", texturefile)
 			texturefile = ExePath+"\" + texturefile
-		_log("Texture "+texturefile+" file...")
+		_log("[Texture "+texturefile+" file]")
 	EndIf
 	Select Case tstr
 		Case "Ns"
@@ -55,10 +54,10 @@ Sub M_Material._LoadMtl(mtlname As string)
 	_log("Texture not!")
 	this.tex.t_id = -1
 	Else
-		_log("Loading texture "+texturefile)
+		_log("[Loading texture "+texturefile+"]")
 		tex._LoadTextures(texturefile, 1)
 	EndIf
-	_log("Loading "+mtlname+" comlite...")
+	_log("[Loading "+mtlname+" comlite]")
 	End If
 End Sub
 

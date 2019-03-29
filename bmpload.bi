@@ -84,7 +84,7 @@ private function LoadBMP(byref Filename as string) as BITMAP_RGBImageRec ptr
       end if
       pbmpdata->sizeX  = bitmapinfoheader.biWidth
       pbmpdata->sizeY  = bitmapinfoheader.biHeight
-      pbmpdata->buffer = allocate(noofpixels*3)
+      pbmpdata->buffer = allocate(noofpixels*4)
       if pbmpdata->buffer = 0 then
         '' close the file
         close #f
@@ -103,6 +103,15 @@ private function LoadBMP(byref Filename as string) as BITMAP_RGBImageRec ptr
           *p = r : p += 1
           *p = g : p += 1
           *p = b : p += 1
+          If (r=255 And g = 0 And b = 255)Then 
+          	p-=3
+            *p = 0 : p += 1
+            *p = 0 : p += 1
+            *p = 0 : p += 1
+          	*p=0 : p+=1
+          Else
+          	*p=255 : p+=1
+          EndIf
         next
       else
         for index = 0 to noofpixels -1
@@ -111,6 +120,15 @@ private function LoadBMP(byref Filename as string) as BITMAP_RGBImageRec ptr
           *p = bmpalette(b).peBlue  : p += 1
           *p = bmpalette(b).peGreen : p += 1
           *p = bmpalette(b).peRed   : p += 1
+          If (bmpalette(b).peRed=255 And bmpalette(b).peGreen = 0 And bmpalette(b).peBlue = 255)Then 
+          	p-=3
+            *p = 0 : p += 1
+            *p = 0 : p += 1
+            *p = 0 : p += 1
+          	*p=0 : p+=1
+          Else
+          	*p=255 : p+=1
+          EndIf
         next
       end if
     else
@@ -119,6 +137,7 @@ private function LoadBMP(byref Filename as string) as BITMAP_RGBImageRec ptr
     end if
     '' Success!
     close #f
+    
     return pbmpdata
   end if
 

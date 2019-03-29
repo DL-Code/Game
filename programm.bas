@@ -1,20 +1,34 @@
 #Include "crt/stdio.bi"
 #Include "core.bi"
+
 start()
+Dim As _M_2D _GUI = _M_2D(xres,yres)
 #Include "albom_font.bi"
+dim  As any Ptr buffered
 Do
       glClear(GL_COLOR_BUFFER_BIT OR GL_DEPTH_BUFFER_BIT)
 		glEnable(GL_CULL_FACE)
 		glCullFace(GL_BACK)
-		glDisable(GL_BLEND)
+		glMatrixMode(GL_PROJECTION)        ' Change Matrix Mode to Projection
+		glLoadIdentity                     ' Reset View
+		gluPerspective(45.0, xres/yres, 1.0, 100.0) 
+		glMatrixMode(GL_MODELVIEW)         ' Return to the modelview matrix
+		glLoadIdentity    
 		Update()'draw scene
-      gldisable (GL_CULL_FACE)
-      glDisable (GL_LIGHTING)
-      glEnable (GL_BLEND)
-  		Color(,RGBA(0,0,0,0))
-      cls
-      glcolor4ub 255,255,255,255  'reset
-		GUI() 'draw gui
+		ImageDestroy buffered:buffered=0
+    	buffered=imagecreate (xres,yres,rgba(0,0,0,0),32)
+		GUI(buffered) 'draw gui
+glMatrixMode(GL_PROJECTION)
+glLoadIdentity
+glViewport(0,0,xres,yres)     
+glOrtho(0,xres,yres,0,-128,128)
+glMatrixMode(GL_MODELVIEW)     
+glEnable(GL_CULL_FACE)
+glCullFace(GL_BACK)
+glEnable GL_TEXTURE_2D        
+glLoadIdentity
+_GUI._Draw(buffered)
+
     glMatrixMode GL_MODELVIEW
     glPushMatrix
     Flip
